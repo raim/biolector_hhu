@@ -1,0 +1,9 @@
+full-time models (glucose) (measurement -> dry mass [mg ml^-1]),,,,
+measurement,recommended,intercept,slope,
+scatter,no,-0.1007,0.8352,
+riboflavin,no,0.2774,0.6923,
+,,,,
+split models (glucose) (measurement -> dry mass [mg ml^-1]),,,,
+measurement,recommended,pre_intercept,pre_slope,post_slope
+scatter,no,0.04839,0.63556,-0.301
+riboflavin,yes,0.1753,0.8525,0.2918

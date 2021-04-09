@@ -1,10 +1,10 @@
 ####Set working directory, files and IDs####
 
-setwd("C:/Users/Katrin/biolector_hhu/data/20210115_BIQ980_biolector")
+setwd("C:/Users/Katrin/biolector_hhu/data/20191121_BIQ980_biolector_pre2")
 cfile <- read.csv("C:/Users/Katrin/biolector_hhu/data/calibrations/calibrations.csv")
 parameters <- read.csv("C:/Users/Katrin/biolector_hhu/data/Parameters.csv", sep = ";")
 
-expID = "41_Ecoli_2020_REDUCTION-1"
+expID = "21_BIQ980_2019_REDUCTION-1"
 calID <- "20210315_calib_split_pre"
 
 
@@ -34,12 +34,12 @@ if (TRUE==TRUE){
 if (id == "GlcAce"){
   #1: read plate map
   map_glc <- readPlateMap(lfile, sep = ";", fsep = ";", asep = ":",
-                          fields = c("strain", "Glc", "Ace"),
-                          afields = c("Glc", "Ace"))
+                          fields = c("strain", "Glc", "Ace", "aTc"),
+                          afields = c("Glc", "Ace", "aTc"))
   
   map_ace <- readPlateMap(lfile, sep = ";", fsep = ";", asep = ":",
-                          fields = c("strain", "Glc", "Ace"),
-                          afields = c("Ace", "Glc"))
+                          fields = c("strain", "Glc", "Ace", "aTc"),
+                          afields = c("Ace", "Glc", "aTc"))
   #1.2: initial carbon amount per well
   carbon_mol <- NULL
   for (i in 1:length(map_glc$well)){
@@ -59,14 +59,14 @@ if (id == "GlcAce"){
                        type="BioLectorPro", time.conversion = 1/3600)
   
   #3: check for blanks
-  if ("blank" %in% colnames(map_carbon)){ #check if it works, TRUE
+  if (any(map_carbon$blank)){
     #3: read experiment
     data <- readExperiment(dfile,
                            type = "BioLectorPro",
                            time.conversion = 1/3600,
                            layout = lfile, 
-                           fields = c("strain","Glc","Ace"), 
-                           afields = c("Glc", "Ace"),
+                           fields = c("strain","Glc","Ace", "aTc"), 
+                           afields = c("Glc", "Ace", "aTc"),
                            group1 = c("strain"),
                            group2 = c("strain","amount", "Ace.amount"),
                            group2.color="color",
@@ -85,8 +85,8 @@ if (id == "GlcAce"){
                            type = "BioLectorPro",
                            time.conversion = 1/3600,
                            layout = lfile, 
-                           fields = c("strain","Glc","Ace"), 
-                           afields = c("Glc", "Ace"),
+                           fields = c("strain","Glc","Ace", "aTc"), 
+                           afields = c("Glc", "Ace", "aTc"),
                            group1 = c("strain"),
                            group2 = c("strain","amount","Ace.amount"),
                            group2.color="color")
@@ -200,7 +200,7 @@ if (id == "GlcAce"){
                        type="BioLectorPro", time.conversion = 1/3600, dec=",")
   
   #3: check for blanks
-  if ("blank" %in% colnames(map)){
+  if (any(map_carbon$blank)){
     #3: read experiment
     data <- readExperiment(dfile,
                            type = "BioLectorPro",
